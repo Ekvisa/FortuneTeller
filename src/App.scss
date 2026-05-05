@@ -1,0 +1,76 @@
+body {
+  margin: 0;
+
+  background: linear-gradient(135deg, #ffc695 0%, #636676 50%, #001426 100%);
+
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4em;
+
+  .crystal {
+    font-size: 5em;
+    animation: text-shine 2s infinite alternate;
+  }
+
+  @keyframes text-shine {
+    0% {
+      text-shadow: 0 -3px 10px #fff;
+    }
+    100% {
+      text-shadow: 0 -5px 40px #ffc695;
+    }
+  }
+
+  button {
+    padding: 0.5em;
+    cursor: pointer;
+  }
+  .prediction {
+    width: 300px;
+    background-color: white;
+    padding: 1em;
+    border-radius: 0.25em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 440px;
+    justify-content: space-evenly;
+    gap: 1em;
+    border: 1px solid black;
+    outline: 1em solid white;
+    p {
+      font-style: italic;
+      font-size: 1.2em;
+      line-height: 1.5em;
+      margin: 0;
+      text-align: center;
+    }
+    img {
+      border-radius: 1em;
+      -webkit-mask-image: radial-gradient(
+        circle,
+        #000 60%,
+        rgba(0, 0, 0, 0) 70%
+      );
+      mask-image: radial-gradient(circle, #000 60%, rgba(0, 0, 0, 0) 70%);
+    }
+  }
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
