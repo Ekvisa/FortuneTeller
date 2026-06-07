@@ -1,12 +1,3 @@
-// function getAdvice(a: string): Promise<string> {
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       console.log(`1s: getAdvice`);
-//       resolve(a);
-//     }, 1000);
-//   });
-// }
-
 async function getAdvice(): Promise<string> {
   const res = await fetch("https://api.api-ninjas.com/v1/advice", {
     headers: {
