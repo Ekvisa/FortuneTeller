@@ -23,7 +23,7 @@ body {
     position: relative;
   }
 
-  .abs {
+  .cardWrapper {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -80,10 +80,10 @@ body {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 3em;
+      // gap: 3em;
       align-items: center;
-      min-height: 420px;
-      width: fit-content;
+      min-height: 450px;
+      // width: fit-content;
       border: 1px solid black;
       p {
         text-align: center;
@@ -124,9 +124,7 @@ body {
         li {
           width: 1em;
           height: 1em;
-
           margin-bottom: 1em;
-
           &.close {
           }
           &.favorite {
@@ -151,20 +149,47 @@ body {
   }
 }
 
-.empty {
+.absentCard {
   opacity: 0;
   height: 0;
   transform: translateY(50px) scale(0.5) rotate(-30deg);
 }
 
-.specified {
+.readyCard {
   opacity: 1;
   transform: translateY(0) scale(1) rotate(0deg);
   transition: all 2s cubic-bezier(0.2, -2, 0.8, 2);
 }
 
 .actions {
-  p {
-    // text-align: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  li li {
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: 0.5em 0;
+    padding-left: 1.5em;
+  }
+
+  .history {
+    li {
+      background-image: url("/FortuneTeller/src/assets/cards/generated.jpg");
+    }
+  }
+  .favorites {
+    li {
+      background-image: url("/FortuneTeller/src/assets/cards/favorite.jpg");
+    }
+  }
+  .cardOfTheDay {
+    li {
+      background-image: url("/FortuneTeller/src/assets/cards/oftheday.jpg");
+    }
   }
 }
