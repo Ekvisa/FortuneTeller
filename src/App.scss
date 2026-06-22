@@ -179,17 +179,17 @@ body {
 
   .history {
     li {
-      background-image: url("/FortuneTeller/src/assets/cards/generated.jpg");
+      background-image: url("./assets/cards/generated.jpg");
     }
   }
   .favorites {
     li {
-      background-image: url("/FortuneTeller/src/assets/cards/favorite.jpg");
+      background-image: url("./assets/cards/favorite.jpg");
     }
   }
   .cardOfTheDay {
     li {
-      background-image: url("/FortuneTeller/src/assets/cards/oftheday.jpg");
+      background-image: url("./assets/cards/oftheday.jpg");
     }
   }
 }
