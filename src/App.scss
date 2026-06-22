@@ -2,10 +2,10 @@ body {
   font-family: verdana;
   margin: 0;
 
-  background: linear-gradient(135deg, #ffc695 0%, #636676 50%, #001426 100%);
+  background: linear-gradient(135deg, #ffd195 0%, #8c7d99 50%, #394573 100%);
 
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   align-items: center;
   justify-content: center;
 }
@@ -13,14 +13,19 @@ body {
 .app {
   display: flex;
   flex-wrap: wrap;
-  // flex-direction: column;
-  // justify-content: space-between;
   align-items: center;
   gap: 4em;
-  // min-height: 100vh;
+  justify-content: center;
+  margin: 4em;
 
   .board {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 350px;
+    min-height: 450px;
+    text-align: center;
   }
 
   .cardWrapper {
@@ -80,10 +85,10 @@ body {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      // gap: 3em;
+
       align-items: center;
       min-height: 450px;
-      // width: fit-content;
+
       border: 1px solid black;
       p {
         text-align: center;
@@ -162,6 +167,10 @@ body {
 }
 
 .actions {
+  h4 {
+    color: #492f6e;
+    margin: 2em 0 1em;
+  }
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -174,7 +183,14 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     margin: 0.5em 0;
-    padding-left: 1.5em;
+    padding-left: 2em;
+    font-size: 0.8em;
+    line-height: 2em;
+    cursor: pointer;
+    color: #152e75;
+    &:hover {
+      filter: brightness(125%);
+    }
   }
 
   .history {
