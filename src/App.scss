@@ -168,8 +168,11 @@ body {
 
 .actions {
   h4 {
-    color: #492f6e;
+    color: #473b7d;
     margin: 2em 0 1em;
+
+    font-size: 2em;
+    font-family: monospace;
   }
   list-style-type: none;
   margin: 0;
@@ -179,7 +182,8 @@ body {
     margin: 0;
     padding: 0;
   }
-  li li {
+  li li,
+  p {
     background-repeat: no-repeat;
     background-size: contain;
     margin: 0.5em 0;
@@ -191,6 +195,7 @@ body {
     &:hover {
       filter: brightness(125%);
     }
+    font-family: "Courier New";
   }
 
   .history {
@@ -204,7 +209,7 @@ body {
     }
   }
   .cardOfTheDay {
-    li {
+    p {
       background-image: url("./assets/cards/oftheday.jpg");
     }
   }

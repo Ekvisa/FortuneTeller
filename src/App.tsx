@@ -6,17 +6,9 @@ import getImageUrl from "./api/image";
 
 import close from "../src/assets/buttons/close.svg";
 import heart from "../src/assets/buttons/heart.svg";
-
-// import oftheday from "../src/assets/cards/oftheday.jpg";
-
-// import favorite from "../src/assets/cards/favorite.jpg";
-
-type Card = {
-  // id: string;
-  advice: string;
-  image: string;
-  // favorite: boolean;
-};
+import CardsSuite from "./components/CardsSuite";
+import type { Card } from "./types";
+import CardOfTheDay from "./components/CardOfTheDay";
 
 type dataStatus = "idle" | "loading" | "ready" | "error";
 
@@ -39,6 +31,7 @@ function App() {
         getImageUrl(),
       ]);
       return {
+        id: crypto.randomUUID(),
         advice: adviceText,
         image: imageUrl,
       };
@@ -85,14 +78,6 @@ function App() {
     }
   }
 
-  function showHistory() {
-    console.log(history);
-  }
-
-  function showFavorites() {
-    console.log(favorites);
-  }
-
   async function getCardOfTheDay() {
     const today = new Date().toDateString();
 
@@ -124,69 +109,33 @@ function App() {
     return newCard;
   }
 
+  function openCard(card: Card) {
+    setCurrentCard(card);
+    setStatus("ready");
+  }
+
   return (
     <div className="app">
       <ul className="actions">
-        <li className="cardOfTheDay">
-          <h4>Карта дня</h4>
-          {cardOfTheDay && (
-            <ul>
-              <li
-                onClick={() => {
-                  if (status === "ready") return;
-                  setCurrentCard(cardOfTheDay);
-                  setStatus("ready");
-                }}
-              >
-                {cardOfTheDay.advice.slice(0, 20)}...
-              </li>
-            </ul>
+        <CardOfTheDay
+          suiteName={"Карта дня"}
+          card={cardOfTheDay}
+          onCardClick={openCard}
+        />
 
-            // <p
-            //   onClick={() => {
-            //     if (status === "ready") return;
-            //     setCurrentCard(cardOfTheDay);
-            //     setStatus("ready");
-            //   }}
-            // >
-            //   {cardOfTheDay.advice.slice(0, 20)}...
-            // </p>
-          )}
-        </li>
-        <li className="history">
-          <h4 onClick={showHistory}>История</h4>
+        <CardsSuite
+          suiteName={"История"}
+          suiteID={"history"}
+          suite={history}
+          onCardClick={openCard}
+        />
 
-          <ul>
-            {history.map((card, index) => (
-              <li
-                key={`history_${index}`}
-                onClick={() => {
-                  setCurrentCard(card);
-                  setStatus("ready");
-                }}
-              >
-                {card.advice.slice(0, 20)}...
-              </li>
-            ))}
-          </ul>
-        </li>
-        <li className="favorites">
-          <h4 onClick={showFavorites}>Избранное</h4>
-
-          <ul>
-            {favorites.map((card, index) => (
-              <li
-                key={`favorites_${index}`}
-                onClick={() => {
-                  setCurrentCard(card);
-                  setStatus("ready");
-                }}
-              >
-                {card.advice.slice(0, 20)}...
-              </li>
-            ))}
-          </ul>
-        </li>
+        <CardsSuite
+          suiteName={"Избранное"}
+          suiteID={"favorites"}
+          suite={favorites}
+          onCardClick={openCard}
+        />
       </ul>
 
       <div className="board">
