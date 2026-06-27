@@ -198,6 +198,9 @@ body {
     font-family: "Courier New";
   }
 
+  p {
+    background-image: url("./assets/cards/oftheday.jpg");
+  }
   .history {
     li {
       background-image: url("./assets/cards/generated.jpg");
@@ -206,11 +209,6 @@ body {
   .favorites {
     li {
       background-image: url("./assets/cards/favorite.jpg");
-    }
-  }
-  .cardOfTheDay {
-    p {
-      background-image: url("./assets/cards/oftheday.jpg");
     }
   }
 }

@@ -4,11 +4,10 @@ import "./App.scss";
 import getAdvice from "./api/advise";
 import getImageUrl from "./api/image";
 
-import close from "../src/assets/buttons/close.svg";
-import heart from "../src/assets/buttons/heart.svg";
 import CardsSuite from "./components/CardsSuite";
 import type { Card } from "./types";
 import CardOfTheDay from "./components/CardOfTheDay";
+import CurrentCard from "./components/CurrentCard";
 
 type dataStatus = "idle" | "loading" | "ready" | "error";
 
@@ -59,16 +58,13 @@ function App() {
     setHistory((prev) => [newCard, ...prev.slice(0, 9)]);
   }
 
-  //При закрытии карты добавим её в Историю:
   function closeClick() {
     if (!currentCard) return;
-    // setHistory((prev) => [currentCard, ...prev.slice(0, 9)]);
-
     setCurrentCard(null);
     setStatus("idle");
   }
 
-  //При нажатии лайка удалим (по айди) или добавим её в Избранное:
+  //При нажатии лайка удалим (по айди) или добавим карту в Избранное:
   function favoriteClick() {
     if (!currentCard) return;
     if (favorites.includes(currentCard)) {
@@ -156,22 +152,11 @@ function App() {
           className={`cardWrapper ${status === "ready" ? "readyCard" : "absentCard"}`}
         >
           {currentCard && (
-            <div className="card">
-              <div className="data">
-                <p>{currentCard.advice}</p>
-                <img src={currentCard.image} alt="image" />
-              </div>
-              <div className="overlay">
-                <ul className="buttons">
-                  <li className="close" onClick={closeClick}>
-                    <img src={close} alt="close" />
-                  </li>
-                  <li className="favorite" onClick={favoriteClick}>
-                    <img src={heart} alt="close" />
-                  </li>
-                </ul>
-              </div>
-            </div>
+            <CurrentCard
+              card={currentCard}
+              closeClick={closeClick}
+              favoriteClick={favoriteClick}
+            />
           )}
         </div>
       </div>

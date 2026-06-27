@@ -1,7 +1,3 @@
-{
-  /* <CardOfTheDay card={cardOfTheDay} onSelectCard={openCard} />; */
-}
-
 import type { Card } from "../types";
 
 type CardOfTheDayProps = {
