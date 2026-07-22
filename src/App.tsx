@@ -4,26 +4,38 @@ import "./App.scss";
 import getAdvice from "./api/advise";
 import getImageUrl from "./api/image";
 
-import CardsSuite from "./components/CardsSuite";
 import type { Card } from "./types";
+import type { AppState } from "./types";
+
+import CardsSuite from "./components/CardsSuite";
 import CardOfTheDay from "./components/CardOfTheDay";
 import CurrentCard from "./components/CurrentCard";
 
-type dataStatus = "idle" | "loading" | "ready" | "error";
-
 function App() {
-  const [status, setStatus] = useState<dataStatus>("idle"); //статус данных
+  const [status, setStatus] = useState<AppState>("idle"); //статус данных
   const [error, setError] = useState<Error | null>(null);
+
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
   const [cardOfTheDay, setCardOfTheDay] = useState<Card | null>(null);
-  const [history, setHistory] = useState<Card[]>([]); //История и
-  const [favorites, setFavorites] = useState<Card[]>([]); //Избранное, в каждом будем хранить максимум 10 карт
+
+  const [history, setHistory] = useState<Card[]>(() => {
+    const saved = localStorage.getItem("history");
+    return saved ? JSON.parse(saved) : [];
+  }); //История и
+  const [favorites, setFavorites] = useState<Card[]>(() => {
+    const saved = localStorage.getItem("favorites");
+    return saved ? JSON.parse(saved) : [];
+  }); //Избранное, в каждом будем хранить максимум 10 карт
 
   useEffect(() => {
-    getCardOfTheDay();
-  }, []);
+    localStorage.setItem("history", JSON.stringify(history));
+  }, [history]);
 
-  async function getData() {
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
+  async function loadCard() {
     try {
       const [adviceText, imageUrl] = await Promise.all([
         getAdvice(),
@@ -48,14 +60,15 @@ function App() {
     if (status !== "idle") return;
     setError(null);
     setStatus("loading");
-    const newCard = await getData();
+    const newCard = await loadCard();
     if (!newCard) {
       setStatus("error");
       return;
     }
+
+    setHistory((prev) => [newCard, ...prev.slice(0, 9)]);
     setCurrentCard(newCard);
     setStatus("ready");
-    setHistory((prev) => [newCard, ...prev.slice(0, 9)]);
   }
 
   function closeClick() {
@@ -64,11 +77,12 @@ function App() {
     setStatus("idle");
   }
 
-  //При нажатии лайка удалим (по айди) или добавим карту в Избранное:
+  //При нажатии лайка удалим по айди или добавим карту в Избранное:
   function favoriteClick() {
     if (!currentCard) return;
-    if (favorites.includes(currentCard)) {
-      setFavorites((prev) => prev.filter((card: Card) => card !== currentCard));
+    const exists = favorites.some((card) => card.id === currentCard.id);
+    if (exists) {
+      setFavorites((prev) => prev.filter((card) => card.id !== currentCard.id));
     } else {
       setFavorites((prev) => [currentCard, ...prev.slice(0, 9)]);
     }
@@ -76,20 +90,16 @@ function App() {
 
   async function getCardOfTheDay() {
     const today = new Date().toDateString();
-
     const saved = localStorage.getItem("cardOfTheDay");
-
     if (saved) {
       const parsed = JSON.parse(saved);
-
       if (parsed.date === today) {
         setCardOfTheDay(parsed.card);
         return parsed.card;
       }
     }
 
-    const newCard = await getData();
-
+    const newCard = await loadCard();
     if (!newCard) return null;
 
     localStorage.setItem(
@@ -109,6 +119,10 @@ function App() {
     setCurrentCard(card);
     setStatus("ready");
   }
+
+  useEffect(() => {
+    getCardOfTheDay();
+  }, []);
 
   return (
     <div className="app">
