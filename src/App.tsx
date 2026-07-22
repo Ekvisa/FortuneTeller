@@ -77,7 +77,7 @@ function App() {
     setStatus("idle");
   }
 
-  //При нажатии лайка удалим по айди или добавим карту в Избранное:
+  //При нажатии лайка удалим карту по айди или добавим её в Избранное:
   function favoriteClick() {
     if (!currentCard) return;
     const exists = favorites.some((card) => card.id === currentCard.id);
@@ -88,40 +88,42 @@ function App() {
     }
   }
 
-  async function getCardOfTheDay() {
-    const today = new Date().toDateString();
-    const saved = localStorage.getItem("cardOfTheDay");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (parsed.date === today) {
-        setCardOfTheDay(parsed.card);
-        return parsed.card;
-      }
-    }
-
-    const newCard = await loadCard();
-    if (!newCard) return null;
-
-    localStorage.setItem(
-      "cardOfTheDay",
-      JSON.stringify({
-        date: today,
-        card: newCard,
-      }),
-    );
-
-    setCardOfTheDay(newCard);
-
-    return newCard;
-  }
-
   function openCard(card: Card) {
     setCurrentCard(card);
     setStatus("ready");
   }
 
   useEffect(() => {
-    getCardOfTheDay();
+    async function initCardOfTheDay() {
+      const today = new Date().toDateString();
+
+      const saved = localStorage.getItem("cardOfTheDay");
+
+      if (saved) {
+        const parsed = JSON.parse(saved);
+
+        if (parsed.date === today) {
+          setCardOfTheDay(parsed.card);
+          return;
+        }
+      }
+
+      const newCard = await loadCard();
+
+      if (!newCard) return;
+
+      localStorage.setItem(
+        "cardOfTheDay",
+        JSON.stringify({
+          date: today,
+          card: newCard,
+        }),
+      );
+
+      setCardOfTheDay(newCard);
+    }
+
+    initCardOfTheDay();
   }, []);
 
   return (
